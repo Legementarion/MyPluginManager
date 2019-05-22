@@ -2,6 +2,8 @@ package com.lego.mypluginmanager.presentation;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -102,6 +104,19 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             intent.putExtra(TASK_CODE_EXTRA, STOP_TASK_CODE);
         }
         sendBroadcast(intent);
+    }
+
+    @Override
+    public boolean isStillExist(PluginEntity plugin) {
+        final PackageManager pm = getPackageManager();
+        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        for (ApplicationInfo packageInfo : packages) {
+            if (packageInfo.packageName.equals(plugin.getPluginName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

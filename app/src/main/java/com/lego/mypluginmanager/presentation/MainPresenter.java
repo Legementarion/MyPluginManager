@@ -6,6 +6,7 @@ import com.lego.mypluginmanager.domain.usecase.AddPluginUseCase;
 import com.lego.mypluginmanager.domain.usecase.DeletePluginUseCase;
 import com.lego.mypluginmanager.domain.usecase.GetAllPluginsUseCase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.CompletableObserver;
@@ -42,7 +43,15 @@ public class MainPresenter extends BasePresenterImpl<MainContract.View> implemen
 
                     @Override
                     public void onSuccess(List<PluginEntity> pluginEntityList) {
-                        view.showStoredPlugins(pluginEntityList);
+                        ArrayList<PluginEntity> result = new ArrayList<>();
+                        for (PluginEntity plugin : pluginEntityList) {
+                            if (view.isStillExist(plugin)) {
+                                result.add(plugin);
+                            } else {
+                                deletePlugin(plugin.getPluginName());
+                            }
+                        }
+                        view.showStoredPlugins(result);
                     }
 
                     @Override

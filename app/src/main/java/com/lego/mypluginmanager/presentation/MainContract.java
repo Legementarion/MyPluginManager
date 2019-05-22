@@ -22,6 +22,8 @@ public interface MainContract {
         void delete(String pluginName);
 
         void addPlugin(PluginEntity pluginName);
+
+        boolean isStillExist(PluginEntity plugin);
     }
 
 }
