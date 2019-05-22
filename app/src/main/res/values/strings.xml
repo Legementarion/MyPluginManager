@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MyPluginManager</string>
+    <string name="on_off_switcher_labal">On/Off</string>
+</resources>
