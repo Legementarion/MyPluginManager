@@ -16,7 +16,7 @@ public interface PluginDAO {
     Single<List<PluginTable>> getAllPlugins();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addPlugin(PluginTable pluginName);
+    void addPlugin(PluginTable plugin);
 
     @Query("DELETE FROM plugins WHERE pluginName = :pluginName")
     void deletePlugin(String pluginName);

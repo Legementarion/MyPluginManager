@@ -26,11 +26,10 @@ public class PluginRepositoryImpl implements PluginRepository {
         return localDataSource.getAllPlugins().map(
                 new Function<List<PluginTable>, List<PluginEntity>>() {
                     @Override
-                    public List<PluginEntity> apply(List<PluginTable> pluginTables) throws Exception {
+                    public List<PluginEntity> apply(List<PluginTable> pluginTables) {
                         ArrayList<PluginEntity> result = new ArrayList<>();
-                        List<PluginTable> tempList = pluginTables;
-                        while (tempList.iterator().hasNext()) {
-                            result.add(LocalMapper.map(tempList.iterator().next()));
+                        for (PluginTable pluginTable : pluginTables) {
+                            result.add(LocalMapper.map(pluginTable));
                         }
                         return result;
                     }

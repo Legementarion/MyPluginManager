@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MyPluginManager</string>
-    <string name="on_off_switcher_labal">On/Off</string>
+    <string name="on_off_switcher_label">On/Off</string>
+    <string name="plugin_list_is_empty">Plugin list is empty</string>
 </resources>

@@ -11,5 +11,5 @@ public class PluginTable {
     @PrimaryKey
     @ColumnInfo(name = "pluginName")
     @NotNull
-    public String name;
+    public String name = "";
 }

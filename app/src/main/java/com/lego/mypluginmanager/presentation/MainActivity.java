@@ -3,6 +3,8 @@ package com.lego.mypluginmanager.presentation;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,12 +37,14 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     private MainAdapter adapter = new MainAdapter();
     private InstallPluginReceiver installBroadCastReceiver = new InstallPluginReceiver();
     private UninstallPackageIntentReceiver uninstallPackageIntentReceiver = new UninstallPackageIntentReceiver();
+    private TextView tvEmptyState;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ((App) getApplicationContext()).appComponent.inject(this);
         super.onCreate(savedInstanceState);
         RecyclerView rvPlugins = findViewById(R.id.rvPlugins);
+        tvEmptyState = findViewById(R.id.tvEmptyState);
         rvPlugins.setAdapter(adapter);
         rvPlugins.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         adapter.setPluginClickListener(this);
@@ -72,8 +76,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     }
 
     @Override
-    public void addPlugin(PluginEntity pluginName) {
-        adapter.addPluginData(pluginName);
+    public void addPlugin(PluginEntity plugin) {
+        adapter.addPluginData(plugin);
+        checkEmptyState();
     }
 
     @Override
@@ -84,6 +89,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     @Override
     public void delete(String pluginName) {
         adapter.checkingDelete(pluginName);
+        checkEmptyState();
     }
 
     @Override
@@ -101,9 +107,17 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     @Override
     public void showStoredPlugins(List<PluginEntity> pluginEntityList) {
         adapter.setPlugins(pluginEntityList);
+        checkEmptyState();
     }
 
-    // Отменяем регистрацию
+    private void checkEmptyState() {
+        if (adapter.getItemCount() == 0) {
+            tvEmptyState.setVisibility(View.VISIBLE);
+        } else {
+            tvEmptyState.setVisibility(View.GONE);
+        }
+    }
+
     public void unregisterBroadcastReceiver() {
         this.unregisterReceiver(installBroadCastReceiver);
         this.unregisterReceiver(uninstallPackageIntentReceiver);
