@@ -72,9 +72,18 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     }
 
     @Override
+    public void addPlugin(PluginEntity pluginName) {
+        adapter.addPluginData(pluginName);
+    }
+
+    @Override
     public void onAppUninstalled(String packageName) {
         getPresenter().deletePlugin(packageName);
-        adapter.checkingDelete(packageName);
+    }
+
+    @Override
+    public void delete(String pluginName) {
+        adapter.checkingDelete(pluginName);
     }
 
     @Override

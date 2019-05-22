@@ -4,13 +4,14 @@ import com.lego.mypluginmanager.domain.entity.PluginEntity;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public interface PluginRepository {
 
-    void add(String pluginName);
+    Completable add(String pluginName);
 
-    void delete(String pluginName);
+    Completable delete(String pluginName);
 
     Single<List<PluginEntity>> getAllPlugins();
 

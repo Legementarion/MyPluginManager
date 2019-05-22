@@ -9,6 +9,7 @@ import com.lego.mypluginmanager.domain.repository.PluginRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
@@ -37,12 +38,12 @@ public class PluginRepositoryImpl implements PluginRepository {
     }
 
     @Override
-    public void add(String pluginName) {
-        localDataSource.add(pluginName);
+    public Completable add(String pluginName) {
+       return localDataSource.add(pluginName);
     }
 
     @Override
-    public void delete(String pluginName) {
-        localDataSource.delete(pluginName);
+    public Completable delete(String pluginName) {
+       return localDataSource.delete(pluginName);
     }
 }

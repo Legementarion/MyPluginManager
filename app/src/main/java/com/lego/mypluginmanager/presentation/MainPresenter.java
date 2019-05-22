@@ -8,6 +8,7 @@ import com.lego.mypluginmanager.domain.usecase.GetAllPluginsUseCase;
 
 import java.util.List;
 
+import io.reactivex.CompletableObserver;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -52,13 +53,49 @@ public class MainPresenter extends BasePresenterImpl<MainContract.View> implemen
     }
 
     @Override
-    public void addPlugin(String pluginName) {
-        addPluginUseCase.addPlugin(pluginName);
+    public void addPlugin(final String pluginName) {
+        addPluginUseCase.addPlugin(pluginName)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        view.addPlugin(new PluginEntity(pluginName));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showToast("Error" + e.getMessage());
+                    }
+                });
     }
 
     @Override
-    public void deletePlugin(String pluginName) {
-        deletePluginUseCase.deletePluginByName(pluginName);
+    public void deletePlugin(final String pluginName) {
+        deletePluginUseCase.deletePluginByName(pluginName)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        view.delete(pluginName);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.showToast("Error" + e.getMessage());
+                    }
+                });
     }
 
 }

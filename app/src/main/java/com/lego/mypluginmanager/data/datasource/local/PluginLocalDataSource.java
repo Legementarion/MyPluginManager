@@ -4,13 +4,14 @@ import com.lego.mypluginmanager.data.datasource.local.dabase.PluginTable;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public interface PluginLocalDataSource {
 
-    void add(String pluginName);
+    Completable add(String pluginName);
 
-    void delete(String pluginName);
+    Completable delete(String pluginName);
 
     Single<List<PluginTable>> getAllPlugins();
 }

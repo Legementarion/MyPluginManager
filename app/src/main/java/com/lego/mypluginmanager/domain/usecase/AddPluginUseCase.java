@@ -2,6 +2,8 @@ package com.lego.mypluginmanager.domain.usecase;
 
 import com.lego.mypluginmanager.domain.repository.PluginRepository;
 
+import io.reactivex.Completable;
+
 public class AddPluginUseCase {
 
     private PluginRepository repository;
@@ -10,7 +12,7 @@ public class AddPluginUseCase {
         this.repository = repository;
     }
 
-    public void addPlugin(String pluginName){
-        repository.add(pluginName);
+    public Completable addPlugin(String pluginName){
+       return repository.add(pluginName);
     }
 }

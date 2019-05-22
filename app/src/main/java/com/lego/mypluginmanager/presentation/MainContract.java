@@ -18,6 +18,10 @@ public interface MainContract {
 
     interface View extends BaseView {
         void showStoredPlugins(List<PluginEntity> pluginEntityList);
+
+        void delete(String pluginName);
+
+        void addPlugin(PluginEntity pluginName);
     }
 
 }
