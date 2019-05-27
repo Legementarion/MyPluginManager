@@ -14,6 +14,7 @@ import com.lego.mypluginmanager.domain.entity.PluginEntity;
 import com.lego.mypluginmanager.R;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.PluginsViewHolder> {
@@ -46,15 +47,25 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.PluginsViewHol
         notifyDataSetChanged();
     }
 
+    public void updatePlugin(PluginEntity pluginToUpdate) {
+        for (PluginEntity plugin : pluginData) {
+            if (plugin.getPluginName().equals(pluginToUpdate.getPluginName())) {
+                plugin.setPluginEnable(pluginToUpdate.isPluginEnable());
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     public void setPluginClickListener(PluginClickListener newListener) {
         listener = newListener;
     }
 
     public void checkingDelete(String packageName) {
-        while (pluginData.iterator().hasNext()) {
-            if (pluginData.iterator().next().getPluginName().equals(packageName)) {
-                pluginData.iterator().remove();
-                break;
+        Iterator itr = pluginData.iterator();
+        while (itr.hasNext()) {
+            PluginEntity plugin = pluginData.iterator().next();
+            if (plugin.getPluginName().equals(packageName)) {
+                itr.remove();
             }
         }
         notifyDataSetChanged();

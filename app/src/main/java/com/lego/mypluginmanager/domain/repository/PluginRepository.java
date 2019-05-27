@@ -9,7 +9,7 @@ import io.reactivex.Single;
 
 public interface PluginRepository {
 
-    Completable add(String pluginName);
+    Single<Boolean> add(PluginEntity plugin);
 
     Completable delete(String pluginName);
 

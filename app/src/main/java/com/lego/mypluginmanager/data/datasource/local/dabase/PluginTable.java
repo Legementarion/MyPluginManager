@@ -12,4 +12,6 @@ public class PluginTable {
     @ColumnInfo(name = "pluginName")
     @NotNull
     public String name = "";
+    @ColumnInfo(name = "pluginEnable")
+    public boolean isEnable = false;
 }

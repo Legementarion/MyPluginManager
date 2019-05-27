@@ -2,6 +2,7 @@ package com.lego.mypluginmanager.data.datasource.local;
 
 import com.lego.mypluginmanager.data.datasource.local.dabase.PluginDAO;
 import com.lego.mypluginmanager.data.datasource.local.dabase.PluginTable;
+import com.lego.mypluginmanager.domain.entity.PluginEntity;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -18,14 +19,21 @@ public class PluginLocalDataSourceImpl implements PluginLocalDataSource {
     }
 
     @Override
-    public Completable add(final String pluginName) {
-        return Completable.fromCallable(new Callable<Void>() {
+    public Single<Boolean> add(final PluginEntity plugin) {
+        return Single.fromCallable(new Callable<Boolean>() {
             @Override
-            public Void call() {
-                PluginTable plugin = new PluginTable();
-                plugin.name = pluginName;
-                pluginDAO.addPlugin(plugin);
-                return null;
+            public Boolean call() {
+                PluginTable pluginTable = pluginDAO.getPluginByName(plugin.getPluginName());
+                if (pluginTable == null) {
+                    PluginTable newPlugin = new PluginTable();
+                    newPlugin.name = plugin.getPluginName();
+                    pluginDAO.addPlugin(newPlugin);
+                    return true;
+                } else {
+                    pluginTable.isEnable = plugin.isPluginEnable();
+                    pluginDAO.updatePlugin(pluginTable);
+                    return false;
+                }
             }
         });
     }

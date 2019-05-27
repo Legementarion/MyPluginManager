@@ -37,8 +37,8 @@ public class PluginRepositoryImpl implements PluginRepository {
     }
 
     @Override
-    public Completable add(String pluginName) {
-       return localDataSource.add(pluginName);
+    public Single<Boolean> add(PluginEntity plugin) {
+       return localDataSource.add(plugin);
     }
 
     @Override

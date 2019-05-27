@@ -62,19 +62,23 @@ public class MainPresenter extends BasePresenterImpl<MainContract.View> implemen
     }
 
     @Override
-    public void addPlugin(final String pluginName) {
-        addPluginUseCase.addPlugin(pluginName)
+    public void addPlugin(final PluginEntity plugin) {
+        addPluginUseCase.addPlugin(plugin)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new CompletableObserver() {
+                .subscribe(new SingleObserver<Boolean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         compositeDisposable.add(d);
                     }
 
                     @Override
-                    public void onComplete() {
-                        view.addPlugin(new PluginEntity(pluginName));
+                    public void onSuccess(Boolean isSuccess) {
+                        if (isSuccess) {
+                            view.addPlugin(plugin);
+                        } else {
+                            view.updatePlugin(plugin);
+                        }
                     }
 
                     @Override

@@ -1,6 +1,7 @@
 package com.lego.mypluginmanager.data.datasource.local;
 
 import com.lego.mypluginmanager.data.datasource.local.dabase.PluginTable;
+import com.lego.mypluginmanager.domain.entity.PluginEntity;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import io.reactivex.Single;
 
 public interface PluginLocalDataSource {
 
-    Completable add(String pluginName);
+    Single<Boolean> add(PluginEntity plugin);
 
     Completable delete(String pluginName);
 

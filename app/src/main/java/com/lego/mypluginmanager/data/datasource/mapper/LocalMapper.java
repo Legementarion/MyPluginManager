@@ -6,6 +6,6 @@ import com.lego.mypluginmanager.domain.entity.PluginEntity;
 public class LocalMapper {
 
     public static PluginEntity map(PluginTable pluginTable) {
-        return new PluginEntity(pluginTable.name);
+        return new PluginEntity(pluginTable.name, pluginTable.isEnable);
     }
 }
